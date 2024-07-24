@@ -29,10 +29,21 @@ Navegue até o diretório do backend e instale as dependências:
 
 Navegue até o diretório do frontend e instale as dependências:
 
-    cd ../frontend
+    cd frontend/mega-farme/
 
     npm install
+    npm install -g @vue/cli
+    npm install sass@1.77.8
+    npm install pug@3.0.3
+    npm install pug pug-plain-loader --save-dev
+    npm install -g yarn
 
+Para rodar aplicação, navegue até SRC:
+
+    cd src
+E rode a aplicação com o comando:
+
+    yarn run serve
 ## Scripts disponíveis
 
 ### Backend
