@@ -1,5 +1,5 @@
 {
-  "dependencies": {
+  "Devdependencies": {
     "pug": "^3.0.3",
     "sass": "^1.77.8",
     "vue": "^2.7.16"

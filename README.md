@@ -38,7 +38,7 @@ Navegue até o diretório do frontend e instale as dependências:
     npm install pug pug-plain-loader --save-dev
     npm install -g yarn
 
-Para rodar aplicação, navegue até SRC:
+Para rodar aplicação, navegue até "src":
 
     cd src
 E rode a aplicação com o comando:
