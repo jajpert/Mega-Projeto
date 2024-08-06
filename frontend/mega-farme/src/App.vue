@@ -1,8 +1,10 @@
 <template lang="pug">
 #app
-  img(alt="Vue logo" src="./assets/logo.png")
-  HelloWorld(msg="Welcome to Your Vue.js App")
-
+  nav
+    router-link(to='/') Go to Home
+    router-link(to='/pag-admin') pg-admin
+    router-link(to='/pag-cliente') pg-cliente
+  router-view
 </template>
 
 <script>
