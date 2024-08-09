@@ -1,25 +1,60 @@
-// src/router.js
 import Vue from 'vue';
-import Router from 'vue-router';
+import VueRouter from 'vue-router';
+import store from './store';
 
-console.log(Vue);
-console.log(Router);
+Vue.use(VueRouter);
 
-import LoginPag from './components/Login/home.vue';
-import PagAdmin from './components/Admin/home.vue';
-import PagCliente from './components/Cliente/home.vue';
-
-Vue.use(Router);
+// Importações de views
+import PagClient from './views/PagClient.vue';
+import PagAdm from './views/PagAdm.vue';
+import PagComprar from './views/PagComprar.vue'; // Corrigido
+import PagCadastro from './views/PagCadastro.vue';
+import PagLogin from './views/PagLogin.vue';
 
 const routes = [
-  { path: '/', name: 'Login', component: LoginPag },
-  { path: '/pag-admin', name: 'Pagina Admin', component: PagAdmin },
-  { path: '/pag-cliente', name: 'Pagina cliente', component: PagCliente },
+    {
+        path: '/',
+        component: PagClient,
+        meta: { requiresAuth: false },
+    },
+    {
+        path: '/adm',
+        component: PagAdm,
+        meta: { requiresAuth: true },
+    },
+    {
+        path: '/comprar',
+        component: PagComprar,
+        meta: { requiresAuth: true },
+    },
+    {
+        path: '/login',
+        component: PagLogin,
+    },
+    {
+        path: '/cadastro',
+        component: PagCadastro,
+    },
 ];
 
-const router = new Router({
+const router = new VueRouter({
   mode: 'history',
   routes,
+});
+
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!store.getters.isAuthenticated) {
+      next({
+        path: '/',
+        query: { redirect: to.fullPath }
+      });
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
 });
 
 export default router;

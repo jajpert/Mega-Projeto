@@ -1,24 +1,27 @@
 <template lang="pug">
 #app
-  nav
-    router-link(to='/') Go to Home
-    router-link(to='/pag-admin') pg-admin
-    router-link(to='/pag-cliente') pg-cliente
+  h1 tela principal
+  nav.nav-teste
+    router-link(to='/') Home
+    router-link(to='/adm') Page Admin
+    router-link(to='/login') Pag Login
+    router-link(to='/comprar') Pag comprar
+    router-link(to='/cadastro') Pag cadastro
   router-view
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
-  }
 }
 </script>
 
 <style lang="scss">
+
+body{ 
+  background-color: #ff0;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -29,6 +32,11 @@ export default {
   p{
     background: #000;
     font-size: 30px;
+  }
+  .nav-teste{
+    display: flex;
+    gap: 10px;
+    justify-content: center;
   }
 }
 </style>
