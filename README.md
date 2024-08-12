@@ -4,6 +4,8 @@
 
 Certifique-se de ter o Node.js instalado na sua máquina. Você pode baixar a versão mais recente do Node.js [aqui](https://nodejs.org/).
 
+Além disso, o projeto utiliza o PostgreSQL como banco de dados. Você precisará instalá-lo e configurá-lo na sua máquina. Você pode obter o PostgreSQL [aqui](https://www.postgresql.org/download/).
+
 Para o frontend, é necessário ter o Yarn instalado globalmente. Você pode instalar o Yarn executando o seguinte comando no terminal:
 
     npm install -g yarn
@@ -37,10 +39,32 @@ Navegue até o diretório do frontend e instale as dependências:
     cd frontend/mega-farme/
     yarn install
 
-Para rodar aplicação, certifique de estar na pasta "mega-farme" e rode a aplicação com qualquer um desses comandos:
+## Configurando o banco de dados
+
+1. Certifique-se de que o PostgreSQL está instalado e em execução.
+
+2. Crie uma base de dados para o projeto. Você pode fazer isso usando a ferramenta de linha de comando `psql` ou qualquer cliente de PostgreSQL de sua escolha. Execute o seguinte comando para criar a base de dados:
+
+    ```bash
+    createdb mega_farme
+    ```
+
+3. Configure as variáveis de ambiente para o banco de dados no arquivo `.env` na pasta `backend`. Exemplo de configuração:
+
+    ```
+    DB_HOST=[string]
+    DB_PORT=[number]
+    DB=[string]
+    DB_USER=[string]
+    DB_PASS=[string]
+    ```
+
+## Rodando a aplicação
+
+Para rodar a aplicação, certifique-se de estar na pasta `mega-farme` e execute a aplicação com qualquer um desses comandos:
 
     yarn run serve
----
+    # ou
     yarn serve
 
 ## Scripts disponíveis
