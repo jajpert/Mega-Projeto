@@ -5,22 +5,22 @@ const bcrypt = require('bcrypt');
 const cadastrarUsuario = async (req, res) => {
   const { nome, cpf, telefone, email, endereco, senha } = req.body;
 
+  const camposObrigatorios = [
+    { campo: nome, nomeCampo: "nome" },
+    { campo: cpf, nomeCampo: "cpf" },
+    { campo: telefone, nomeCampo: "telefone" },
+    { campo: email, nomeCampo: "email" },
+    { campo: senha, nomeCampo: "senha" }
+  ];
+
+  const camposVazio = camposObrigatorios
+  .filter(({ campo }) => campo === undefined || campo === null || campo.trim() === "")
+  .map(({ nomeCampo }) => nomeCampo);
+
+  if (camposVazio.length > 0) {
+    return res.status(400).json({ mensagem: `Os campos ${camposVazio.join(', ')} são obrigatórios` });
+  }
   try {
-    const camposObrigatorios = [
-      { campo: nome, nomeCampo: "nome" },
-      { campo: cpf, nomeCampo: "cpf" },
-      { campo: telefone, nomeCampo: "telefone" },
-      { campo: email, nomeCampo: "email" },
-      { campo: senha, nomeCampo: "senha" }
-    ];
-
-    const camposVazio = camposObrigatorios
-    .filter(({ campo }) => campo === undefined || campo === null || campo.trim() === "")
-    .map(({ nomeCampo }) => nomeCampo);
-
-    if (camposVazio.length > 0) {
-      return res.status(400).json({ mensagem: `Os campos ${camposVazio.join(', ')} são obrigatórios` });
-    }
 
     const emailExistente = await knex("usuarios").where({email}).first();
 
