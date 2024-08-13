@@ -1,7 +1,7 @@
 CREATE DATABASE mega_farme;
 
 CREATE TABLE usuarios (
-  id INTEGER PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   nome VARCHAR,
   cpf VARCHAR UNIQUE NOT NULL,
   telefone VARCHAR,
@@ -9,4 +9,14 @@ CREATE TABLE usuarios (
   endereco TEXT,
   senha TEXT,
   adm BOOLEAN
+);
+
+CREATE TABLE categorias (
+  id SERIAL PRIMARY KEY,
+  nome VARCHAR
+);
+
+CREATE TABLE fabricantes (
+  id SERIAL PRIMARY KEY,
+  nome VARCHAR
 );
