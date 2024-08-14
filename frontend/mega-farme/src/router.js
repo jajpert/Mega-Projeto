@@ -5,8 +5,8 @@ import store from './store';
 Vue.use(VueRouter);
 
 // Importações de views
-import PagClient from './views/PagClient.vue';
-import PagAdm from './views/PagAdm.vue';
+import HomePage from './views/HomePage.vue';
+import ProdutoDescricao from './components/PageCliente/ProdutoDescricao.vue';
 import PagComprar from './views/PagComprar.vue'; // Corrigido
 import PagCadastro from './views/PagCadastro.vue';
 import PagLogin from './views/PagLogin.vue';
@@ -14,13 +14,14 @@ import PagLogin from './views/PagLogin.vue';
 const routes = [
     {
         path: '/',
-        component: PagClient,
+        component: HomePage,
         meta: { requiresAuth: false },
+        props: true,
     },
     {
-        path: '/adm',
-        component: PagAdm,
-        meta: { requiresAuth: true },
+        path: '/produto/:id',
+        name: "produto",
+        component: ProdutoDescricao,
     },
     {
         path: '/comprar',
