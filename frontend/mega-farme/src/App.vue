@@ -1,42 +1,38 @@
 <template lang="pug">
 #app
-  h1 tela principal
-  nav.nav-teste
-    router-link(to='/') Home
-    router-link(to='/adm') Page Admin
-    router-link(to='/login') Pag Login
-    router-link(to='/comprar') Pag comprar
-    router-link(to='/cadastro') Pag cadastro
+  NavBar
   router-view
 </template>
 
 <script>
-
+import NavBar from "./views/NavBar.vue"
 export default {
   name: 'App',
+  components:{
+    NavBar
+  }
 }
 </script>
 
 <style lang="scss">
-
+*{
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+}
 body{ 
-  background-color: #ff0;
+  margin: 0px;
+  padding: 0px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+a{
+  text-decoration: none;
+}
+ul{
+  list-style: none;
 }
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-  p{
-    background: #000;
-    font-size: 30px;
-  }
-  .nav-teste{
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-  }
+
 }
 </style>
