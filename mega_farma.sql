@@ -1,4 +1,4 @@
-CREATE DATABASE mega_farme;
+CREATE DATABASE mega_farma;
 
 CREATE TABLE usuarios (
   id SERIAL PRIMARY KEY,
@@ -19,4 +19,16 @@ CREATE TABLE categorias (
 CREATE TABLE fabricantes (
   id SERIAL PRIMARY KEY,
   nome VARCHAR
+);
+
+CREATE TABLE produtos (
+	id SERIAL PRIMARY KEY,
+  nome VARCHAR,
+  nome_cientifico VARCHAR,
+  valor MONEY,
+  quantidade INT,
+  validade DATE,
+  categoria_id INT,
+  fabricante_id INT,
+  produto_imagem VARCHAR
 );

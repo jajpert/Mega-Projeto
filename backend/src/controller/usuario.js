@@ -58,6 +58,14 @@ const cadastrarUsuario = async (req, res) => {
   }
 }
 
+const excluirUsuario = async (req, res) => {
+
+}
+
+const buscarUsuario = async (req, res) => {
+  
+}
+
 module.exports = {
   cadastrarUsuario
 }
