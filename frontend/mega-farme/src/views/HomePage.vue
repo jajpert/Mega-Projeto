@@ -1,105 +1,31 @@
 <template lang="pug">
 main.container-cliente
     .produtos
-        router-link.produto(v-for="produto in produtos" :key="produto.id" :to="{name: 'produto', params:{id: produto.id}}")
+        router-link.produto(v-for="produto in produtos || []" :key="produto.id" @click.native="selectProduto(produto)" :to="{name: 'produto', params:{id: produto.id}}")
             .container-img
                 img.imagem(:src="produto.img")
                 p.nome-produto {{produto.name}}
+    //- p {{ nome }} <!-- Referencie o estado correto aqui -->
+    //- p {{ produtos }} <!-- Verifique o valor de produtos -->
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
-    props: true,
   name: "HomePage",
-  components: {
+  computed: {
+    ...mapGetters('produtos', ['produtos', 'nome'])
   },
-  data() {
-    return {
-      produtos: [
-        {
-          id: 1,
-          img: require("../assets/pharma-remedio.png"),
-          name: "produto 1",
-        },
-        {
-          id: 2,
-          img: require("../assets/pharma-remedio.png"),
-          name: "produto 2",
-        },
-        {
-          id: 3,
-          img: require("../assets/pharma-remedio.png"),
-          name: "produto 3",
-        },
-        {
-          id: 4,
-          img: require("../assets/pharma-remedio.png"),
-          name: "produto 4",
-        },
-        {
-          id: 5,
-          img: require("../assets/pharma-remedio.png"),
-          name: "produto 5",
-        },
-        {
-          id: 6,
-          img: require("../assets/pharma-remedio.png"),
-          name: "produto 6",
-        },
-        {
-          id: 7,
-          img: require("../assets/pharma-remedio.png"),
-          name: "produto 7",
-        },
-        {
-          id: 8,
-          img: require("../assets/pharma-remedio.png"),
-          name: "produto 8",
-        },
-        {
-          id: 9,
-          img: require("../assets/pharma-remedio.png"),
-          name: "produto 9",
-        },
-        {
-          id: 10,
-          img: require("../assets/pharma-remedio.png"),
-          name: "produto 10",
-        },
-        {
-          id: 11,
-          img: require("../assets/pharma-remedio.png"),
-          name: "produto 11",
-        },
-        {
-          id: 12,
-          img: require("../assets/pharma-remedio.png"),
-          name: "produto 12",
-        },
-        {
-          id: 13,
-          img: require("../assets/pharma-remedio.png"),
-          name: "produto 13",
-        },
-        {
-          id: 14,
-          img: require("../assets/pharma-remedio.png"),
-          name: "produto 14",
-        },
-        {
-          id: 15,
-          img: require("../assets/pharma-remedio.png"),
-          name: "produto 15",
-        },
-      ],
-    };
-  },
-  // computed:{
-  //     ...mapState(["name"]),
-  // },
+  methods: {
+    ...mapActions('produtos',['selecionaProduto']),
+    selectProduto(produto){
+      this.selecionarProduto(produto)
+    }
+  }
 };
 </script>
+
 
 <style lang="scss" scoped>
 main.container-cliente {
