@@ -32,3 +32,8 @@ CREATE TABLE produtos (
   fabricante_id INT,
   produto_imagem VARCHAR
 );
+
+CREATE TABLE forma_pagamentos (
+	id SERIAL PRIMARY KEY,
+  nome VARCHAR
+);

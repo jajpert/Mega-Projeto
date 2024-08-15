@@ -1,5 +1,6 @@
 const knex = require('../db');
 const validaCpf = require('../utils/validaCpf');
+const validaSenha = require('../utils/validaSenha')
 const bcrypt = require('bcrypt');
 
 const cadastrarUsuario = async (req, res) => {
@@ -20,6 +21,7 @@ const cadastrarUsuario = async (req, res) => {
   if (camposVazio.length > 0) {
     return res.status(400).json({ mensagem: `Os campos ${camposVazio.join(', ')} são obrigatórios` });
   }
+
   try {
 
     const emailExistente = await knex("usuarios").where({email}).first();
@@ -28,9 +30,7 @@ const cadastrarUsuario = async (req, res) => {
 			return res.status(400).json("O email já está em uso por outro usuário");
 		}
 
-    const cpfValidado = validaCpf(cpf);
-
-    if(!cpfValidado) {
+    if(!validaCpf(cpf)) {
       return res.status(400).json("CPF inválido.");
     }
 
@@ -38,6 +38,20 @@ const cadastrarUsuario = async (req, res) => {
 
     if(cpfExistente) {
       return res.status(400).json("O CPF já está em uso por outro usuário.");
+    }
+
+    if (!validaSenha(senha)) {
+      return res.status(400).json({
+        error: "Senha inválida",
+        message: "A senha deve atender aos seguintes critérios:",
+        requirements: [
+          "Ter entre 6 e 10 caracteres",
+          "Incluir pelo menos uma letra maiúscula",
+          "Incluir pelo menos uma letra minúscula",
+          "Incluir pelo menos um número",
+          "Incluir pelo menos um caractere especial (ex: !, @, #, $, %, &, *)"
+        ]
+      });
     }
 
     const senhaCriptografada = await bcrypt.hash(senha, 10);
@@ -63,7 +77,7 @@ const excluirUsuario = async (req, res) => {
 }
 
 const buscarUsuario = async (req, res) => {
-  
+
 }
 
 module.exports = {
