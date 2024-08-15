@@ -1,5 +1,5 @@
 const knex = require('../db');
-const { uploadImagem, excluirImagem, listagemImagens } = require('../services/storage');
+const { uploadImagem, excluirImagem } = require('../services/storage');
 
 const cadastrarProduto = async (req, res) => {
   const { nome, nome_cientifico, valor, quantidade, validade, categoria_id, fabricante_id } = req.body;
@@ -72,7 +72,19 @@ const cadastrarProduto = async (req, res) => {
 }
 
 const listarProdutos = async (req, res) => {
-  
+  try {
+		const produtos = await knex .select("*").from("produtos");
+
+		if (!produtos) {
+			return res.status(404).json({mensagem: "Nenhum produto cadastrado"});
+		}
+
+		return res.status(200).json(produtos);
+
+	} catch (error) {
+		console.error('Erro ao listar os produtos:', error.message);
+		return res.status(500).json({mensagem: "Erro interno do servidor"});
+	}
 }
 
 const detalharProduto = async (req, res) => {
@@ -91,12 +103,53 @@ const detalharProduto = async (req, res) => {
 
 		return res.status(200).json(produtoEncontrado);
 	} catch (error) {
+		console.error('Erro ao detalhar o produto:', error.message);
 		return res.status(500).json({mensagem: "Erro interno do servidor"});
 	}
 }
 
 const excluirProduto = async (req, res) => {
+	const {id} = req.params;
 
+	try {
+		const produtoExistente = await knex("produtos").where({id}).first();
+		if (!produtoExistente) {
+			return res.status(400).json("O produto informado não existe");
+		}
+
+		// const produtoComCarrinho = await knex("carrinho")
+		// 	.where({produto_id: id})
+		// 	.first();
+
+		// if (produtoComCarrinho) {
+		// 	return res.status(400).json({
+		// 		mensagem:
+		// 			"Não é possível excluir o produto, pois ele está vinculado a um carrinho.",
+		// 	});
+		// }
+
+		const imagemURL = produtoExistente.produto_imagem;
+
+		if (imagemURL !== null) {
+			await excluirImagem(imagemURL);
+		}
+
+		const produtoExcluido = await knex("produtos")
+			.where({id})
+			.update({
+				produto_imagem: null,
+			})
+			.del();
+
+		if (!produtoExcluido) {
+			return res.status(400).json("O produto não foi excluído.");
+		}
+		return res.status(200).json("O produto foi excluído com sucesso.");
+
+	} catch (error) {
+		console.error('Erro ao excluir o produto:', error.message);
+		return res.status(500).json({mensagem: "Erro interno do servidor"});
+	}
 }
 
 module.exports = {
