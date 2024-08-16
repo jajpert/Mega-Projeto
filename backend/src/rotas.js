@@ -2,7 +2,7 @@ const express = require('express');
 const multer = require('./middleware/multer');
 const verificaLogin = require('./middleware/verificaLogin');
 const { verificaAdmin } = require('./middleware/verificaAdm');
-const { cadastrarUsuario } = require('./controller/usuario');
+const { cadastrarUsuario, excluirUsuario, detalharUsuario } = require('./controller/usuario');
 const { login } = require('./controller/login');
 const { listarCategoria, cadastrarCategoria, excluirCategoria, detalharCategoria, editarCategoria } = require('./controller/categoria');
 const { listarFabricante, cadastrarFabricante, excluirFabricante, detalharFabricante, editarFabricante } = require('./controller/fabricante');
@@ -24,6 +24,10 @@ rotas.post("/login", login);
 
 // senha
 rotas.patch("/usuario/senha", editarSenha);
+
+// usuario
+rotas.delete("/usuario/:id", excluirUsuario);
+rotas.get("/usuario/:id", detalharUsuario);
 
 // produtos
 rotas.get("/produto", listarProdutos);

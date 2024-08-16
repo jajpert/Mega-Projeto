@@ -80,6 +80,7 @@ const cadastrarProduto = async (req, res) => {
 			return res.status(201).json(produto[0]);
 
     } catch (error) {
+			console.log("entrouauqiu", error)
       return res.status(500).json({mensagem: "Erro interno do servidor"});
     }
   } else{

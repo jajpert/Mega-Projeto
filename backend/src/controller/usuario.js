@@ -112,13 +112,64 @@ const editarUsuario = async (req, res) => {
 };
 
 const excluirUsuario = async (req, res) => {
+  const { id } = req.params;
 
-}
+  try {
+    const usuario = await knex('usuarios').where({ id }).first();
+    if (!usuario) {
+      return res.status(404).json({ mensagem: "Usuário não encontrado." });
+    }
+
+    await knex('itens_compra')
+      .whereIn('compra_id', function () {
+        this.select('id').from('compra').where({ usuario_id: id });
+      })
+      .del();
+
+    await knex('compra').where({ usuario_id: id }).del();
+
+    await knex('itens_carrinho')
+      .whereIn('carrinho_id', function () {
+        this.select('id').from('carrinhos').where({ usuario_id: id });
+      })
+      .del();
+
+    await knex('carrinhos').where({ usuario_id: id }).del();
+
+    await knex('usuarios').where({ id }).del();
+
+    return res.status(200).json({ mensagem: "Usuário e dados relacionados excluídos com sucesso." });
+
+  } catch (error) {
+    console.error('Erro ao excluir o usuário:', error.message);
+    return res.status(500).json({ mensagem: error.message });
+  }
+};
 
 const detalharUsuario = async (req, res) => {
+  const { id } = req.params;
 
-}
+  try {
+    const usuario = await knex('usuarios')
+      .select('nome', 'cpf', 'telefone', 'email', 'endereco')
+      .where({ id })
+      .first();
+
+    if (!usuario) {
+      return res.status(404).json({ mensagem: "Usuário não encontrado." });
+    }
+
+    return res.status(200).json(usuario);
+
+  } catch (error) {
+    console.error('Erro ao detalhar o usuário:', error.message);
+    return res.status(500).json({ mensagem: error.message });
+  }
+};
 
 module.exports = {
-  cadastrarUsuario
+  cadastrarUsuario,
+  editarUsuario,
+  excluirUsuario,
+  detalharUsuario
 }
