@@ -1,7 +1,7 @@
-const knex = require('../db');
-const validaCpf = require('../utils/validaCpf');
-const validaSenha = require('../utils/validaSenha')
-const bcrypt = require('bcrypt');
+const knex = require("../db");
+const validaCpf = require("../utils/validaCpf");
+const validaSenha = require("../utils/validaSenha")
+const bcrypt = require("bcrypt");
 
 const cadastrarUsuario = async (req, res) => {
   const { nome, cpf, telefone, email, endereco, senha } = req.body;
@@ -19,7 +19,7 @@ const cadastrarUsuario = async (req, res) => {
   .map(({ nomeCampo }) => nomeCampo);
 
   if (camposVazio.length > 0) {
-    return res.status(400).json({ mensagem: `Os campos ${camposVazio.join(', ')} são obrigatórios` });
+    return res.status(400).json({ mensagem: `Os campos ${camposVazio.join(", ")} são obrigatórios` });
   }
 
   try {
@@ -67,16 +67,55 @@ const cadastrarUsuario = async (req, res) => {
     return res.json("O usuario foi cadastrado com sucesso!");
 
   } catch (error) {
-    console.error('Erro ao cadastrar o usuário:', error.message);
+    console.error("Erro ao cadastrar o usuário:", error.message);
     return res.status(500).json({ mensagem: "Erro interno do servidor" });
   }
 }
+
+const editarUsuario = async (req, res) => {
+	const {nome, email, senha} = req.body;
+	const {id} = req.usuario;
+
+	try {
+		const usuarioExiste = await knex("usuarios").where({id}).first();
+
+		if (!usuarioExiste) {
+			return res.status(404).json({mensagem: "Usuario não encontrado"});
+		}
+
+		const senhaCriptografada = await bcrypt.hash(senha, 10);
+
+		if (email !== req.usuario.email) {
+			const emailUsuarioExiste = await knex("usuarios").where({email}).first();
+
+			if (emailUsuarioExiste) {
+				res.status(400).json({mensagem: "O Email já existe."});
+				return;
+			}
+		}
+
+		const usuario = await knex("usuarios")
+			.where({id})
+			.update({
+				nome,
+				email,
+				senha: senhaCriptografada,
+			})
+			.returning("*");
+		const {senha: _, ...usuarioCadastrado} = usuario[0];
+
+		res.status(204).json(usuarioCadastrado);
+		return;
+	} catch (error) {
+		return res.status(500).json({mensagem: "Erro interno do servidor"});
+	}
+};
 
 const excluirUsuario = async (req, res) => {
 
 }
 
-const buscarUsuario = async (req, res) => {
+const detalharUsuario = async (req, res) => {
 
 }
 

@@ -3,7 +3,7 @@ const knex = require("../db");
 const cadastrarCategoria = async (req, res) => {
   const { nome } = req.body;
 
-  if (!nome || nome.trim() === '') {
+  if (!nome || nome.trim() === "") {
     return res.status(400).json("O campo nome não pode estar vazio");
   }
 
@@ -19,14 +19,14 @@ const cadastrarCategoria = async (req, res) => {
     return res.status(201).json("Categoria cadastrada com sucesso.");
 
   } catch (error) {
-    console.error('Erro ao cadastrar a categoria:', error.message);
+    console.error("Erro ao cadastrar a categoria:", error.message);
     return res.status(500).json({ mensagem: error.message });
   }
 }
 
 const listarCategoria = async (req, res) => {
   try {
-    const categorias = await knex('categorias')
+    const categorias = await knex("categorias")
     return res.status(200).json(categorias);
 
   } catch (error) {
@@ -50,7 +50,7 @@ const detalharCategoria = async (req, res) => {
 
 		return res.status(200).json(categoriaEncontrada);
 	} catch (error) {
-		console.error('Erro ao detalhar a categoria:', error.message);
+		console.error("Erro ao detalhar a categoria:", error.message);
 		return res.status(500).json({mensagem: "Erro interno do servidor"});
 	}
 }
@@ -59,7 +59,7 @@ const editarCategoria = async (req, res) => {
   const {nome} = req.body;
   const {id} = req.params;
 
-  if (!nome || nome.trim() === '') {
+  if (!nome || nome.trim() === "") {
     return res.status(400).json("O campo nome não pode estar vazio");
   }
 
@@ -82,7 +82,7 @@ const editarCategoria = async (req, res) => {
     return res.status(200).json("Categoria editada com sucesso.");
 
   } catch (error) {
-    console.error('Erro ao editar a categoria:', error.message);
+    console.error("Erro ao editar a categoria:", error.message);
 		return res.status(500).json({mensagem: "Erro interno do servidor"});
   }
 }
@@ -98,8 +98,12 @@ const excluirCategoria = async (req, res) => {
         mensagem: "Não é possível excluir a categoria, pois ela está vinculada a um produto.",
 			});
 		}
+
+    await knex("categorias").where({id}).del();
+    return res.status(200).json({ mensagem: "Categoria excluída com sucesso." });
+
   } catch (error) {
-    console.error('Erro ao excluir a categoria:', error.message);
+    console.error("Erro ao excluir a categoria:", error.message);
     return res.status(500).json({ mensagem: error.message });
   }
 }

@@ -11,6 +11,17 @@ CREATE TABLE usuarios (
   adm BOOLEAN
 );
 
+INSERT INTO usuarios (nome, cpf, telefone, email, endereco, senha, adm)
+VALUES (
+  'Admin Farma',
+  '12057235017',
+  '67 99999-9999',
+  'admin@gmail.com',
+  'UFMS',
+  '12345*Ab',
+  true
+);
+
 CREATE TABLE categorias (
   id SERIAL PRIMARY KEY,
   nome VARCHAR
@@ -35,5 +46,49 @@ CREATE TABLE produtos (
 
 CREATE TABLE forma_pagamentos (
 	id SERIAL PRIMARY KEY,
+  nome VARCHAR,
+  status_id BOOLEAN
+);
+
+CREATE TABLE carrinhos (
+  id SERIAL PRIMARY KEY,
+  usuario_id INT,
+  data_criacao TIMESTAMP DEFAULT NOW()
+);
+
+CREATE TABLE itens_carrinho (
+  id SERIAL PRIMARY KEY,
+  carrinho_id INT,
+  produto_id INT,
+  quantidade INT,
+  valor MONEY
+);
+
+CREATE TABLE status (
+	id SERIAL PRIMARY KEY,
   nome VARCHAR
+);
+
+INSERT INTO status (nome) VALUES
+('Pendente'),
+('Concluída'),
+('Cancelada'),
+('Ativo'),
+('Inativo');
+
+CREATE TABLE compra (
+  id SERIAL PRIMARY KEY,
+  usuario_id INT,
+  forma_pagamento_id INT,
+  data_compra TIMESTAMP DEFAULT NOW(),
+  total MONEY,
+  status_id VARCHAR
+);
+
+CREATE TABLE itens_compra (
+  id SERIAL PRIMARY KEY,
+  compra_id INT,
+  produto_id INT,
+  quantidade INT,
+  valor MONEY
 );
