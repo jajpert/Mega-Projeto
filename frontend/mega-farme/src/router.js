@@ -6,8 +6,7 @@ Vue.use(VueRouter);
 // Importações de views
 import HomePage from './views/HomePage.vue';
 import ProdutoDescricao from './components/PageCliente/ProdutoDescricao.vue';
-import PagComprar from './views/PagComprar.vue'; // Corrigido
-import PagCadastro from './views/PagCadastro.vue';
+// import PagCadastro from './views/PagCadastro.vue';
 import PagLogin from './views/PagLogin.vue';
 
 const routes = [
@@ -22,18 +21,13 @@ const routes = [
         props: true,
     },
     {
-        path: '/comprar',
-        component: PagComprar,
-        meta: { requiresAuth: true },
-    },
-    {
         path: '/login',
         component: PagLogin,
     },
-    {
-        path: '/cadastro',
-        component: PagCadastro,
-    },
+    // {
+    //     path: '/cadastro',
+    //     component: PagCadastro,
+    // },
 ];
 
 const router = new VueRouter({

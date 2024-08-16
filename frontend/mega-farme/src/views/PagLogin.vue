@@ -1,14 +1,10 @@
 <template lang="pug">
-.container-admin
-    PagLogin
+.container-login
+    input(type="text")
+    p oi
 </template>
 
 <script>
-import PagLogin from "../components/PagLogin/home.vue"
 export default{
-    components: { 
-        PagLogin
-    }
-        
 }
 </script>

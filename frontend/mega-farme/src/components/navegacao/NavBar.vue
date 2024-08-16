@@ -24,7 +24,7 @@ export default {
   name: "NavBar",
   data(){
     return{
-      logo: require("../assets/logo.png"),
+      logo: require("../../assets/logo.png"),
       valorPesquisado: null,
     }
   }
