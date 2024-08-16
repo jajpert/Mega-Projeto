@@ -2,7 +2,7 @@ const knex = require("../db");
 
 const listarFabricante = async (req, res) => {
   try {
-    const fabricantes = await knex('fabricantes')
+    const fabricantes = await knex("fabricantes")
     return res.status(200).json(fabricantes);
 
   } catch (error) {
@@ -13,7 +13,7 @@ const listarFabricante = async (req, res) => {
 const cadastrarFabricante = async (req, res) => {
   const { nome } = req.body;
 
-  if (!nome || nome.trim() === '') {
+  if (!nome || nome.trim() === "") {
     return res.status(400).json("O campo nome não pode estar vazio");
   }
 
@@ -33,7 +33,7 @@ const cadastrarFabricante = async (req, res) => {
     return res.status(201).json("Fabricante cadastrado com sucesso.");
 
   } catch (error) {
-    console.error('Erro ao cadastrar o fabricante:', error.message);
+    console.error("Erro ao cadastrar o fabricante:", error.message);
     return res.status(500).json({ mensagem: error.message });
   }
 }
@@ -54,7 +54,7 @@ const detalharFabricante = async (req, res) => {
 
 		return res.status(200).json(fabricanteEncontrado);
 	} catch (error) {
-		console.error('Erro ao detalhar o fabricante:', error.message);
+		console.error("Erro ao detalhar o fabricante:", error.message);
 		return res.status(500).json({mensagem: "Erro interno do servidor"});
 	}
 }
@@ -63,7 +63,7 @@ const editarFabricante = async (req, res) => {
   const {nome} = req.body;
   const {id} = req.params;
 
-  if (!nome || nome.trim() === '') {
+  if (!nome || nome.trim() === "") {
     return res.status(400).json("O campo nome não pode estar vazio");
   }
 
@@ -86,7 +86,7 @@ const editarFabricante = async (req, res) => {
     return res.status(200).json("Fabricante editado com sucesso.");
 
   } catch (error) {
-    console.error('Erro ao editar o fabricante:', error.message);
+    console.error("Erro ao editar o fabricante:", error.message);
 		return res.status(500).json({mensagem: "Erro interno do servidor"});
   }
 }
@@ -102,8 +102,12 @@ const excluirFabricante = async (req, res) => {
         mensagem: "Não é possível excluir o fabricante, pois ele está vinculado a um produto.",
 			});
 		}
+
+    await knex("fabricantes").where({id}).del();
+    return res.status(200).json({ mensagem: "Fabricante excluído com sucesso." });
+
   } catch (error) {
-    console.error('Erro ao excluir o fabricante:', error.message);
+    console.error("Erro ao excluir o fabricante:", error.message);
     return res.status(500).json({ mensagem: error.message });
   }
 }

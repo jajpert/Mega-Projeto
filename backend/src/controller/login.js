@@ -1,6 +1,6 @@
 const knex = require("../db");
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 const login = async (req, res) => {
   const { email, senha } = req.body;
@@ -16,23 +16,23 @@ const login = async (req, res) => {
     .map(({ nomeCampo }) => nomeCampo);
 
     if (camposVazio.length > 0) {
-      return res.status(400).json({ mensagem: `Os campos ${camposVazio.join(', ')} são obrigatórios` });
+      return res.status(400).json({ mensagem: `Os campos ${camposVazio.join(", ")} são obrigatórios` });
     }
 
-    const usuario = await knex ('usuarios').where({email}).first();
+    const usuario = await knex ("usuarios").where({email}).first();
 
     if (!usuario){
-      return res.status(404).json({mensagem:'E-mail ou senha inválido'})
+      return res.status(404).json({mensagem:"E-mail ou senha inválido"})
     }
 
     const senhaValida = await bcrypt.compare(senha, usuario.senha);
 
     if(!senhaValida){
-      return res.status(404).json({mensagem:'E-mail ou senha inválido'})
+      return res.status(404).json({mensagem:"E-mail ou senha inválido"})
     }
 
     const token = jwt.sign({ id: usuario.id, nome: usuario.nome, adm: usuario.adm }, process.env.KEY_JWT, {
-			expiresIn: '8h',
+			expiresIn: "8h",
 		})
 
     // const { senha: _, ...usuarioLogado } = usuario;
@@ -41,7 +41,7 @@ const login = async (req, res) => {
     return res.json({ token })
 
   } catch (error) {
-    console.error('Erro ao logar o usuário:', error.message);
+    console.error("Erro ao logar o usuário:", error.message);
     return res.status(500).json({ mensagem: "Erro interno do servidor" });
   }
 
