@@ -4,11 +4,8 @@ nav.nav-bar
     router-link(to="/").logo-container
       img.logo(:src="logo") 
     .search-container
-      //-   select.search-select-filter
-      //-     option(default)
-      //-     option todos
-      input.search-bar(type="text" name="search" id="search" v-model="valorPesquisado")
-      //- lembrar de como vai ser feito a verificação desta aba-//
+      //- input.search-bar(type="text" name="search" id="search" v-model="valorPesquisado")
+      ProdutoBuscar
     .nav-items
       .orders
         .nav-item
@@ -20,11 +17,15 @@ nav.nav-bar
 </template>
 
 <script>
+import ProdutoBuscar from './ProdutoBuscar.vue';
 export default {
   name: "NavBar",
+  components: {
+    ProdutoBuscar
+  },
   data(){
     return{
-      logo: require("../../assets/logo.png"),
+      logo: require("../assets/logo.png"),
       valorPesquisado: null,
     }
   }

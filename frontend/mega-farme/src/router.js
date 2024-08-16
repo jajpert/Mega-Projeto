@@ -24,10 +24,6 @@ const routes = [
         path: '/login',
         component: PagLogin,
     },
-    // {
-    //     path: '/cadastro',
-    //     component: PagCadastro,
-    // },
 ];
 
 const router = new VueRouter({
