@@ -1,7 +1,9 @@
 <template lang="pug">
 #app
   NavBar
-  router-view
+  transition(name="fade", mode="out-in")
+    router-view
+
 </template>
 
 <script>
@@ -35,4 +37,14 @@ ul{
 #app {
 
 }
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.5s;
+  background-color: yellow; /* Temporário para debug */
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+  background-color: red; /* Temporário para debug */
+}
+
 </style>

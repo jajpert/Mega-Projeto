@@ -1,8 +1,8 @@
 <template lang="pug">
 .produto-buscar
   form
-    input.search-bar(name='busca' type='text' v-model='busca')
-    input#lupa(name='lupa' type='submit' value="Buscar" @click.prevent="buscarProdutos()")
+    input.search-bar(name='busca' type='text' v-model='busca' @input="buscarProdutos()" placeholder="Faça sua busca")
+    //- input#lupa(name='lupa' type='submit' value="Buscar" @click.prevent="buscarProdutos()")
 
 
 </template>
@@ -10,25 +10,29 @@
 <script>
 export default {
   name: "ProdutoBuscar",
-  data(){
-    return{
+  data() {
+    return {
       busca: "",
     }
   },
-  methods:{
-    buscarProdutos(){
-      if(this.busca) {
-        this.$router.push({query: {q: this.busca}}).catch(err => {
-            // Ignora o erro de navegação duplicada
-            if (err.name !== 'NavigationDuplicated') {
-              // Se o erro não for NavigationDuplicated, você pode lidar com ele aqui
-              console.error(err);
-            }
-          });
+  methods: {
+    buscarProdutos() {
+      if (this.busca) {
+        this.$router.push({ query: { q: this.busca } }).catch(err => {
+          if (err.name !== 'NavigationDuplicated') {
+            console.error(err);
+          }
+        });
+      } else {
+        // Se o campo de busca estiver vazio, remove a query da URL
+        this.$router.push({ query: {} }).catch(err => {
+          if (err.name !== 'NavigationDuplicated') {
+            console.error(err);
+          }
+        });
       }
     }
   }
-
 }
 </script>
 <style lang="scss" scoped>

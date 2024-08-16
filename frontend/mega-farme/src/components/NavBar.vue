@@ -4,7 +4,6 @@ nav.nav-bar
     router-link(to="/").logo-container
       img.logo(:src="logo") 
     .search-container
-      //- input.search-bar(type="text" name="search" id="search" v-model="valorPesquisado")
       ProdutoBuscar
     .nav-items
       .orders
