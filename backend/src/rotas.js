@@ -20,7 +20,7 @@ const rotas = express();
 rotas.post("/usuario", cadastrarUsuario);
 rotas.post("/login", login);
 
-// rotas.use(verificaLogin);
+rotas.use(verificaLogin);
 
 // senha
 rotas.patch("/usuario/senha", editarSenha);
@@ -63,7 +63,7 @@ rotas.put("/itens_compra", atualizarItemCompra);
 rotas.delete("/itens_compra", excluirItemCompra);
 
 
-//rotas.use(verificaAdmin);
+rotas.use(verificaAdmin);
 
 // rotas ADM
 

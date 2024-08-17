@@ -11,17 +11,6 @@ CREATE TABLE usuarios (
   adm BOOLEAN
 );
 
-INSERT INTO usuarios (nome, cpf, telefone, email, endereco, senha, adm)
-VALUES (
-  'Admin Farma',
-  '12057235017',
-  '67 99999-9999',
-  'admin@gmail.com',
-  'UFMS',
-  '12345*Ab',
-  true
-);
-
 CREATE TABLE categorias (
   id SERIAL PRIMARY KEY,
   nome VARCHAR
