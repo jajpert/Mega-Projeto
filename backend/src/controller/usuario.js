@@ -4,7 +4,7 @@ const validaSenha = require("../utils/validaSenha")
 const bcrypt = require("bcrypt");
 
 const cadastrarUsuario = async (req, res) => {
-  const { nome, cpf, telefone, email, endereco, senha } = req.body;
+  const { nome, cpf, telefone, email, endereco, senha, adm } = req.body;
 
   const camposObrigatorios = [
     { campo: nome, nomeCampo: "nome" },
@@ -57,7 +57,7 @@ const cadastrarUsuario = async (req, res) => {
     const senhaCriptografada = await bcrypt.hash(senha, 10);
 
     const usuario = await knex("usuarios")
-    .insert({nome, cpf, telefone, email, endereco, senha: senhaCriptografada})
+    .insert({nome, cpf, telefone, email, endereco, senha: senhaCriptografada, adm})
     .returning("*");
 
     if (!usuario) {
