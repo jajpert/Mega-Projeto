@@ -4,9 +4,11 @@ main.container-cliente
 </template>
 
 <script>
-import ListaProdutos from '../components/ListaProdutos.vue'
+import ListaProdutos from '../../components/ListaProdutos.vue'
+
 
 export default {
+  name: "HomeUsuario",
   components:{
     ListaProdutos,
   },

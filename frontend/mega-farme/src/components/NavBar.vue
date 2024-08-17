@@ -1,35 +1,57 @@
 <template lang="pug">
 nav.nav-bar
   header.header-nav
-    router-link(to="/").logo-container
+    router-link(to="/usuario" v-if="isUserLoggedIn").logo-container
+      img.logo(:src="logo")
+    router-link(to="/"  v-else).logo-container
       img.logo(:src="logo") 
     .search-container
-      ProdutoBuscar
-    .nav-items
-      .orders
-        .nav-item
-      .account
-        .nav-item
-      .cart
-        .nav-item
-
+      ProdutoBuscar(v-if="!isRouteLogin")
+    router-link(to="/carrinho" v-if="isUserLoggedIn") Carrinho
+    router-link.nav-items(to="/login" v-if="!isUserLoggedIn")
+      img(:src="user")
+    button(v-if="isUserLoggedIn" @click="logout").out Sair
 </template>
+
 
 <script>
 import ProdutoBuscar from './ProdutoBuscar.vue';
+import { mapGetters } from 'vuex';
+
 export default {
   name: "NavBar",
   components: {
     ProdutoBuscar
   },
-  data(){
-    return{
+  data() {
+    return {
       logo: require("../assets/logo.png"),
+      user: require("../assets/user.png"),
       valorPesquisado: null,
     }
+  },
+  methods: {
+    navigateToHome() {
+      if (this.$route.path === '/') {
+        this.$root.$emit('getProdutos');
+      } else {
+        this.$router.push('/');
+      }
+    },
+    logout() {
+      this.$store.commit('LOGOUT');
+      this.$router.push('/login');
+    }
+  },
+  computed: {
+    ...mapGetters(['isUserLoggedIn']),
+    isRouteLogin() {
+      return this.$route.path === "/login";
+    }
   }
-};
+}
 </script>
+
 
 <style lang="scss" scoped>
 nav.nav-bar {
@@ -58,6 +80,7 @@ nav.nav-bar {
       height: 40px;
       display: flex;
       align-items: center;
+      justify-content: center;
       .search-bar {
         width: 100%;
         height: 100%;
@@ -78,16 +101,22 @@ nav.nav-bar {
     .nav-items {
       display: flex;
       gap: 30px;
-      .orders,
-      .account,
-      .cart {
-        .nav-item {
-          width: 40px;
-          height: 40px;
-          background: #000;
-        }
+      height: 50px;
+      width: 50px;
+      background: rgb(217, 46, 16);
+      img{
+        max-width: 100%;
+        height: 40px;
+        margin: 4px auto;
       }
     }
+      button.out{
+        font-weight: bold;
+        background: red;
+        padding: 10px;
+        border-radius: 10px;
+        color: #fff;
+      }
   }
 }
 </style>
